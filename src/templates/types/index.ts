@@ -38,7 +38,7 @@ export type Delete${capitalized}ActionInput = z.infer<
 
 export async function makeTypesFile(featureName: string, featurePath: string) {
 	const typesFileResult = await makeFile(
-		featurePath + `${featureName}.types.ts`,
+		featurePath + `/${featureName}.types.ts`,
 		typesTemplate(featureName)
 	)
 
