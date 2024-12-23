@@ -96,7 +96,7 @@ export const makeFile = async (
 
 export const rmDir = async (path: string): Promise<DataError<string>> => {
 	try {
-		await fs.rmdir(path, { recursive: true })
+		await fs.rm(path, { recursive: true })
 		return { data: path, error: null }
 	} catch (error) {
 		console.error(error)
