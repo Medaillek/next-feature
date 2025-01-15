@@ -42,6 +42,11 @@ export function main() {
 				name: 'tableName',
 				message: 'What is the name of the table to use?',
 			},
+			{
+				type: 'confirm',
+				name: 'confirm',
+				message: 'Are you sure you want to create this feature?',
+			},
 		])
 		.then(
 			async ({ featureName, permissionType, tableName, featureFolderPath }) => {
@@ -52,11 +57,11 @@ export function main() {
 				const featureExists = await doesPathExist(featurePath)
 
 				if (featureExists) {
-					chalk.red('Feature already exists')
+					console.log(chalk.red('Feature already exists'))
 					return
 				}
 
-				spinner = ora('Creating feature').start()
+				spinner = ora(`Creating feature ${capitalized}`).start()
 
 				const featureFolder = await makeDir(featurePath)
 
@@ -88,7 +93,7 @@ export function main() {
 				])
 
 				if (spinner) {
-					spinner.succeed('Feature created')
+					spinner.succeed(`Created feature ${capitalized}`)
 				}
 			}
 		)
@@ -98,7 +103,8 @@ export function main() {
 				if (spinner) {
 					spinner.fail(err.message)
 				}
-				chalk.red(err.results.map((res) => res.error).join('\n'))
+				console.log(chalk.red(err.results.map((res) => res.error).join('\n')))
+				spinner = null
 				return
 			}
 			if (spinner) {

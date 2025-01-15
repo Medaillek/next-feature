@@ -8,7 +8,7 @@ import {
 import { clientSchemasTemplate } from './client'
 import { serverSchemasTemplate } from './server'
 
-function buildSchemaDir(
+async function buildSchemaDir(
 	featureName: string,
 	tableName: string,
 	path: string
@@ -18,6 +18,16 @@ function buildSchemaDir(
 
 	const clientPath = `${path}/client`
 	const serverPath = `${path}/server`
+
+	const folderProms = [makeDir(clientPath), makeDir(serverPath)]
+
+	const folderResults = await Promise.all(folderProms)
+
+	const isFolderError = hasSomeErrors(folderResults)
+
+	if (isFolderError) {
+		return folderResults
+	}
 
 	const clientFileProm = makeFile(clientPath + '/index.ts', clientTemplate)
 	const serverFileProm = makeFile(serverPath + '/index.ts', serverTemplate)

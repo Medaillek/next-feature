@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises'
 import { PermissionType } from '../data'
 import { z } from 'zod'
+import chalk from 'chalk'
 
 export async function doesPathExist(path: string): Promise<boolean> {
 	try {
@@ -47,11 +48,11 @@ const {${permissionType === 'factory' ? 'factoryId' : 'zoneId'}} = input
 
 const { hasPermission } = await queryUserPermissions(
 		ctx.user.id,
-		${permissionType},
+		'${permissionType}',
 		${permissionType === 'factory' ? 'factoryId' : 'zoneId'}
 	)
 
-if (!hasPermission(${crud}:${featureName}')) {
+if (!hasPermission('${crud}:${featureName}')) {
 	throw "Vous n'avez pas la permission de ${
 		crudOperationMap[crud]
 	} cette ${featureName}."
@@ -74,6 +75,7 @@ export type DataError<T> = DataErrorSuccess<T> | DataErrorFailure
 export const makeDir = async (path: string): Promise<DataError<string>> => {
 	try {
 		const newDir = await fs.mkdir(path, { recursive: true })
+		// console.log(chalk.green(`Created directory ${path.split('/').pop()}`))
 		return { data: newDir, error: null }
 	} catch (error) {
 		console.error(error)
@@ -87,6 +89,7 @@ export const makeFile = async (
 ): Promise<DataError<string>> => {
 	try {
 		await fs.writeFile(path, content)
+		// console.log(chalk.green(`Created file ${path.split('/').pop()}`))
 		return { data: path, error: null }
 	} catch (error) {
 		console.error(error)

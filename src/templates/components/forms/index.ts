@@ -16,9 +16,9 @@ import { Form } from '@/components/ui/form'
 import { toast } from 'sonner'
 
 import StyledFormField from '@/components/ui/StyledFormField'
-import { ${crud}${capitalized}Action } from '@/features/zone/server/actions'
-import { ${capCrud}${capitalized}FormInput } from '../../types'
-import { ${crud}${capitalized}FormSchema } from '../../schemas/form'
+import { ${crud}${capitalized}Action } from '../../server/actions'
+import { ${capCrud}${capitalized}FormInput } from '../../${featureName}.types'
+import { ${crud}${capitalized}FormSchema } from '../../schemas/client'
 
 type ${capCrud}${capitalized}FormProps = {
 	

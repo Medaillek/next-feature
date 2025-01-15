@@ -14,7 +14,7 @@ import { update${capitalized}ActionSchema } from '../../schemas/server'
 import { queryUserPermissions } from '@/lib/utils.user'
 
 export const update${capitalized}Action = authedProcedure
-    .updateServerAction()
+    .createServerAction()
     .input(update${capitalized}ActionSchema)
     .handler(async ({ input, ctx }) => {
         ${generateHasPermission('update', permissionType, featureName)}
