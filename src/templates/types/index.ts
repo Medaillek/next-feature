@@ -30,6 +30,8 @@ export type Create${capitalized}FormInput = z.infer<typeof create${capitalized}F
 export type Update${capitalized}FormInput = z.infer<typeof update${capitalized}FormSchema>
 export type Delete${capitalized}FormInput = z.infer<typeof delete${capitalized}FormSchema>
 
+export type Create${capitalized}ActionInput = Create${capitalized}FormInput
+export type Update${capitalized}ActionInput = Update${capitalized}FormInput
 export type Delete${capitalized}ActionInput = z.infer<
 	typeof delete${capitalized}ActionSchema
 >
