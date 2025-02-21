@@ -6,7 +6,8 @@ import { makeDbDir } from './db'
 export async function makeServerDir(
 	featureName: string,
 	featurePath: string,
-	permissionType: PermissionType
+	permissionType: PermissionType,
+	tableName: string
 ) {
 	const serverPath = featurePath + '/server'
 	const serverFolder = await makeDir(serverPath)
@@ -34,7 +35,7 @@ export async function makeServerDir(
 		if (res.error) {
 			return [res]
 		}
-		return makeDbDir(res.data)
+		return makeDbDir(res.data, tableName, featureName)
 	})
 
 	const [actionFolderResults, dbFolder] = await Promise.all([
