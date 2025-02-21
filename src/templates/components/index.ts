@@ -1,11 +1,17 @@
-import { DataErrorResults, hasSomeErrors, makeDir, makeFile } from '../../utils'
+import {
+	capitalize,
+	DataErrorResults,
+	hasSomeErrors,
+	makeDir,
+	makeFile,
+} from '../../utils'
 import { buildFormTemplate } from './forms'
 
-function indexTemplate() {
+function indexTemplate(featureName: string) {
 	return `
-    export * from './create'
-    export * from './delete'
-    export * from './update'
+    export * from './create${featureName}Form'
+    export * from './delete${featureName}Form'
+    export * from './update${featureName}Form'
     `.trim()
 }
 
@@ -13,6 +19,7 @@ export async function makeComponentsDir(
 	featureName: string,
 	featurePath: string
 ) {
+	const capi = capitalize(featureName)
 	const componentsDir = await makeDir(`${featurePath}/components`)
 
 	if (componentsDir.error) {
@@ -33,9 +40,9 @@ export async function makeComponentsDir(
 		)
 	}
 
-	const deletePath = `${formPath}/delete.tsx`
-	const createPath = `${formPath}/create.tsx`
-	const updatePath = `${formPath}/update.tsx`
+	const deletePath = `${formPath}/delete${capi}Form.tsx`
+	const createPath = `${formPath}/create${capi}Form.tsx`
+	const updatePath = `${formPath}/update${capi}Form.tsx`
 
 	const deleteFile = makeFile(
 		deletePath,
@@ -49,7 +56,7 @@ export async function makeComponentsDir(
 		updatePath,
 		buildFormTemplate(featureName, 'update')
 	)
-	const indexFile = makeFile(`${formPath}/index.ts`, indexTemplate())
+	const indexFile = makeFile(`${formPath}/index.ts`, indexTemplate(capi))
 
 	const res = await Promise.all([deleteFile, createFile, updateFile, indexFile])
 
