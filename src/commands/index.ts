@@ -78,7 +78,8 @@ export function main() {
 				const serverDirProm = makeServerDir(
 					featureName,
 					featurePath,
-					permissionType
+					permissionType,
+					tableName
 				)
 
 				const componentsDirProm = makeComponentsDir(featureName, featurePath)
