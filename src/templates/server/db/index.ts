@@ -1,4 +1,6 @@
 import { DataError, makeFile } from '../../../utils'
+import { createDbTemplate as cdt } from './create'
+import { updateDbTemplate as udt } from './update'
 
 function makeIndexFile() {
 	return `
@@ -9,8 +11,14 @@ function makeIndexFile() {
    `.trim()
 }
 
-export function makeDbDir(path: string): Promise<DataError<string>[]> {
+export function makeDbDir(
+	path: string,
+	tableName: string,
+	featureName: string
+): Promise<DataError<string>[]> {
 	const indexFile = makeIndexFile()
+	const createDbTemplate = cdt(featureName, tableName)
+	const updateDbTemplate = udt(featureName, tableName)
 
 	const createPath = `${path}/create.ts`
 	const deletePath = `${path}/delete.ts`
@@ -18,9 +26,9 @@ export function makeDbDir(path: string): Promise<DataError<string>[]> {
 	const selectPath = `${path}/select.ts`
 	const indexPath = `${path}/index.ts`
 
-	const createFileProm = makeFile(createPath, '')
+	const createFileProm = makeFile(createPath, createDbTemplate)
 	const deleteFileProm = makeFile(deletePath, '')
-	const updateFileProm = makeFile(updatePath, '')
+	const updateFileProm = makeFile(updatePath, updateDbTemplate)
 	const selectFileProm = makeFile(selectPath, '')
 	const indexFileProm = makeFile(indexPath, indexFile)
 
